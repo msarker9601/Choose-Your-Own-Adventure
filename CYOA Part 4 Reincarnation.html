@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+        function initialize() {
+            charImg = document.getElementById("character");
+            charImg.style.display = "block";
+            story = document.getElementById("dialogue");
+            story.style.display = "block";
+            document.getElementById("left").style.display = "inline-block";
+            document.getElementById("right").style.display = "inline-block";
+            storyText = [
+                "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>",
+                "So who was it? Who killed her!",
+                "Is she the one that killed my wife? No, not a chance. We couldn’t have been brought to this game by chance.",
+                "It hurts so much. This pain, do you feel it too, Tohru?",
+                "How do you know my name?",
+                "Ever since I saw you, I knew that you would be the one for me. But unfortunately, my best friend, Shigeko had to take you.",
+                "I won’t ever forgive you, Nyoko. She was your best friend and you just killed her. How do you think I feel?",
+                "I will never take a girl who is just obsessed and especially one that kills. You were never the one for me and you never will be the one for me.",
+                "What do you know of it? You don’t know how much she meant to me, she was my only friend in that college. She was the one that opened me up to the world and you’re saying that it was easy killing her?",
+                "I loved you more than everything. I dreamt about being with you, talking with you, understanding you, and yet you reject me. I became a criminal for you so that you can try and catch me as I stole all so much just for your attention.", 
+                "The sad truth about you is that all you wanted was attention. You were just an attention seeker that used me as an excuse to get attention. You used my wife to get the attention of others.",
+                "You act as if you were always lonely but the thing is that you wanted everyone to have eyes on you."
+            ];
+            detectiveText = [
+                "So who was it? Who killed her!",
+                "Is she the one that killed my wife? No, not a chance. We couldn’t have been brought to this game by chance.",
+                "How do you know my name?",
+                "I won’t ever forgive you, Nyoko. She was your best friend and you just killed her. How do you think I feel?",
+                "I will never take a girl who is just obsessed and especially one that kills. You were never the one for me and you never will be the one for me.",
+                "The sad truth about you is that all you wanted was attention. You were just an attention seeker that used me as an excuse to get attention. You used my wife to get the attention of others.",
+                "You act as if you were always lonely but the thing is that you wanted everyone to have eyes on you."
+            ];
+            ringmasterText = [
+            ];
+            knifethrowerText = [
+            ]
+            narratorText = [
+            "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>"
+            ];
+            criminalText = [
+            "It hurts so much. This pain, do you feel it too, Tohru?",
+            "Ever since I saw you, I knew that you would be the one for me. But unfortunately, my best friend, Shigeko had to take you.",
+            "What do you know of it? You don’t know how much she meant to me, she was my only friend in that college. She was the one that opened me up to the world and you’re saying that it was easy killing her?",
+             "I loved you more than everything. I dreamt about being with you, talking with you, understanding you, and yet you reject me. I became a criminal for you so that you can try and catch me as I stole all so much just for your attention.",    
+            ];
+            page = 0;
+            continueStory();
+        }
+        function continueStory() {
+            costumeSwitch(page);
+            story.innerHTML = storyText[page];
+        }
+        function pageTurner() {
+            page++;
+            continueStory();
+        }
+        function pageBackward() {
+            page--;
+            continueStory();
+        }
+        function costumeSwitch(page) {
+            if (detectiveText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Detective1.png";
+            }
+            if (ringmasterText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Ringmaster.png";
+            }
+            if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "KnifeThrower.png";
+            }
+            if (criminalText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Criminal1.png";
+            }
+            if (narratorText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "";
+            }
+        }
+    </script>
+    <title>Level 2 Project</title>
+</head>
+
+<body id="background" onload="initialize();">
+    <img id="character" src="" />
+    <p id="dialogue">
+    </p>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+</body>
+
+</html>

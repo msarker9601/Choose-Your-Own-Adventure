@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--This is the real CYOA Part 4 such that it has many if else statements
+What I mean by this is that if you choose to -->
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+      function initialize() {
+        charImg = document.getElementById("character");
+        charImg.style.display = "block";
+        story = document.getElementById("dialogue");
+        story.style.display = "block";
+        document.getElementById("left").style.display = "inline-block";
+        document.getElementById("right").style.display = "inline-block";
+        document.body.style.animation = "none";
+        currentKnives = parseInt(localStorage.getItem("storedKnives"));
+        currentPoints = parseInt(localStorage.getItem("storedPoints"));
+        storyText = [
+          "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>",
+          "So who was it? Who killed her!",
+          "Is she the one that killed my wife? No, not a chance. We couldn’t have been brought to this game by chance.",
+          "It hurts so much. This pain, do you feel it too, Tohru?",
+          "How do you know my name?",
+          "Ever since I saw you, I knew that you would be the one for me. But unfortunately, my best friend, Shigeko had to take you.",
+          "I won’t ever forgive you, Nyoko. She was your best friend and MY WIFE!",
+          "I will never take a girl who is just obsessed and especially one that kills. You were never the one for me and you never will be the one for me.",
+          "What do you know of it? You don’t know how much she meant to me, she was my only friend in that college. She was the one that opened me up to the world and you’re saying that it was easy killing her?",
+          "I loved you more than everything. I dreamt about being with you, talking with you, understanding you, and yet you reject me. I became a criminal for you so that you can try and catch me as I stole all so much just for your attention.",
+          "The sad truth about you is that all you wanted was attention. You were just an attention seeker that used me as an excuse to get attention. You used my wife to get the attention of others.",
+          "You act as if you were always lonely but the thing is that you wanted everyone to have eyes on you."
+        ];
+        detectiveText = [
+          "So who was it? Who killed her!",
+          "Is she the one that killed my wife? No, not a chance. We couldn’t have been brought to this game by chance.",
+          "How do you know my name?",
+          "I won’t ever forgive you, Nyoko. She was your best friend and you just killed her. How do you think I feel?",
+          "I will never take a girl who is just obsessed and especially one that kills. You were never the one for me and you never will be the one for me.",
+          "The sad truth about you is that all you wanted was attention. You were just an attention seeker that used me as an excuse to get attention. You used my wife to get the attention of others.",
+          "You act as if you were always lonely but the thing is that you wanted everyone to have eyes on you."
+        ];
+        ringmasterText = [];
+        knifethrowerText = [];
+        narratorText = [
+          "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>"
+        ];
+        criminalText = [
+          "It hurts so much. This pain, do you feel it too, Tohru?",
+          "Ever since I saw you, I knew that you would be the one for me. But unfortunately, my best friend, Shigeko had to take you.",
+          "What do you know of it? You don’t know how much she meant to me, she was my only friend in that college. She was the one that opened me up to the world and you’re saying that it was easy killing her?",
+          "I loved you more than everything. I dreamt about being with you, talking with you, understanding you, and yet you reject me. I became a criminal for you so that you can try and catch me as I stole all so much just for your attention."
+        ];
+        page = 0;
+        detectivePage = 0;
+        setDisplay("throwKnife", "none");
+        pointModifier = 0;
+        noPointModifier = 0;
+        display();
+        continueStory();
+      }
+      function continueStory() {
+        costumeSwitch(page);
+        story.innerHTML = storyText[page];
+      }
+      function pageTurner() {
+        page++;
+        continueStory();
+      }
+      function pageBackward() {
+        page--;
+        continueStory();
+      }
+      function costumeSwitch(page) {
+        if (detectiveText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Detective2.png";
+          detectivePage++;
+        }
+        if (ringmasterText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Ringmaster.png";
+        }
+        if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "KnifeThrower.png";
+        }
+        if (criminalText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Criminal2.png";
+        }
+        if (narratorText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "";
+        }
+        if (
+          storyText[page] ==
+          "Ever since I saw you, I knew that you would be the one for me. But unfortunately, my best friend, Shigeko had to take you."
+        ) {
+          setDisplay("throwKnife", "inline-block");
+        }
+        if (storyText[page-1] == "You act as if you were always lonely but the thing is that you wanted everyone to have eyes on you.") {
+            localStorage.setItem("storedKnives", currentKnives);
+            localStorage.setItem("storedPoints", currentPoints);
+            window.location.href= "CYOA Part 5.html";
+        }
+      }
+      function knifeDecision(throwIt) {
+        if (throwIt == 1) {
+          pointModifier++;
+          currentKnives--;
+          currentPoints += pointModifier;
+          storyText.splice(page, 0, "You have thrown a knife");
+          narratorText.push("You have thrown a knife");
+          if (currentKnives <= 0) {
+            currentKnives = 0;
+            page+=2;
+            storyText.splice(
+              page,
+              0,
+              "WHY DON'T I HAVE KNIVES? I WANT TO KILL HER!"
+            );
+            detectiveText.splice(detectivePage, 0, "<em>WHY DON'T I HAVE KNIVES? I WANT TO KILL HER!</em>");
+            detectivePage++;
+            continueStory();
+            display();
+          }
+          continueStory();
+          display();
+        }
+        if (throwIt == 0) {
+          storyText.splice(
+              page,
+              0,
+              "I'll listen to what she has to say.."
+            );
+            detectiveText.splice(detectivePage, 0, "<em>WHY DON'T I HAVE KNIVES? I WANT TO KILL HER!</em>");
+            detectivePage++;
+            continueStory();
+          noPointModifier += 2;
+          currentPoints -= noPointModifier;
+        }
+        page++;
+      }
+      function display() {
+        document.getElementById("knives").innerHTML = currentKnives;
+      }
+      function setDisplay(className, displayValue) {
+        var items = document.getElementsByClassName(className);
+        for (var i = 0; i < items.length; i++) {
+          items[i].style.display = displayValue;
+        }
+      }
+    </script>
+    <title>Level 2 Project</title>
+  </head>
+
+  <body id="background" onload="initialize();">
+    <div
+      style="display: in-line block; text-align: left; border: solid blue 5px; color: white;"
+    >
+      Number of Knives: <span id="knives" style="color:white;"></span>
+    </div>
+    <img id="character" src="" />
+    <p id="dialogue"></p>
+    <div style="text-align:center;">
+      <button onclick="window.location.href='CYOA Part 1.html'">
+        Start Over
+      </button>
+    </div>
+    <br />
+    <button class="throwKnife" onclick="knifeDecision(1);">Throw Knife</button>
+    <button id="nextStage" class="throwKnife" onclick="knifeDecision(0);">
+      Don't Throw Knife
+    </button>
+    <br />
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+  </body>
+</html>

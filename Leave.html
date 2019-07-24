@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="CYOA.css" />
+  <script>
+    function initialize() {
+      charImg = document.getElementById("character");
+      charImg.style.display = "block";
+      story = document.getElementById("dialogue");
+      story.style.display = "block";
+      leftArrow = document.getElementById("left");
+      rightArrow = document.getElementById("right");
+      document.getElementById("left").style.display = "inline-block";
+      document.getElementById("right").style.display = "inline-block";
+      document.body.style.animation = "none";
+      storyText = [
+        "Where is the exit to this place?",
+        "I've been seeing so many different paths",
+        "Left or Right?"
+      ];
+      detectiveText = [
+        "Where is the exit to this place?",
+        "I've been seeing so many different paths",
+        "Left or Right?"
+      ];
+      ringmasterText = [
+
+      ];
+      narratorText = [
+
+      ];
+      criminalText = [
+      ];
+      page = 0;
+      setDisplay("path", "none");
+      setDisplay("decision", "none");
+      continueStory();
+    }
+    function continueStory() {
+      costumeSwitch(page);
+      story.innerHTML = storyText[page];
+    }
+    function pageTurner() {
+      page++;
+      continueStory();
+    }
+    function pageBackward() {
+      page--;
+      continueStory();
+    }
+    function costumeSwitch(page) {
+      if (detectiveText.indexOf(storyText[page]) >= 0) {
+        charImg.src = "Images/" + "Detective1.png";
+      }
+      if (ringmasterText.indexOf(storyText[page]) >= 0) {
+        charImg.src = "Images/" + "Ringmaster.png";
+      }
+      if (criminalText.indexOf(storyText[page]) >= 0) {
+        charImg.src = "Images/" + "Criminal1.png";
+      }
+      if (narratorText.indexOf(storyText[page]) >= 0) {
+        charImg.src = "";
+      }
+      if (storyText[page] == "Left or Right?") {
+        leftArrow.style.display = "none";
+        rightArrow.style.display = "none";
+        setDisplay("path", "inline-block");
+      }
+      if (storyText[page] == "Stay or Leave?" && pathDecision == 1) {
+        leftArrow.style.display = "none";
+        rightArrow.style.display = "none";
+        setDisplay("decision", "inline-block");
+      }
+    }
+    function setDisplay(className, displayValue) {
+      var items = document.getElementsByClassName(className);
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.display = displayValue;
+      }
+    }
+    function fatedPath() {
+      pathDecision = Math.floor(Math.random() * 2);
+      return pathDecision;
+    }
+    function finalPath() {
+      fatedPath();
+      page++;
+      if (pathDecision == 0) {
+        storyText.push("<em> You have died from a trap </em>");
+        narratorText.push("<em> You have died from a trap </em>");
+        setDisplay("decision", "none");
+        setDisplay("path", "none");
+        //The only button available in this case will be the Start Over button
+      }
+      if (pathDecision == 1) {
+        storyText.push("How am I back to the Ringmaster?", "Hello there, have you come back to me?", "Stay or Leave?");
+        detectiveText.push("How am I back to the Ringmaster?", "Stay or Leave?");
+        ringmasterText.push("Hello there, have you come back to me?");
+        setDisplay("path", "none");
+        leftArrow.style.display = "inline-block";
+        rightArrow.style.display = "inline-block";
+      }
+      continueStory();
+    }
+  </script>
+  <title>Level 2 Project</title>
+</head>
+
+<body id="background" onload="initialize();">
+  <img id="character" src="Images/Detective1.png" />
+  <p id="dialogue"></p>
+  <button class="path" onclick="finalPath();">Left</button>
+  <button style="float: right;" class="path" onclick="finalPath();">Right</button>
+  <button class="decision" onclick="window.location.href= 'CYOA Part 2.html'">Stay</button>
+  <button style="float: right;" class="decision" onclick="window.location.href= 'Leave.html'">Leave</button>
+  <div style="text-align:center;"><button onclick="window.location.href='CYOA Part 1.html'">Start Over</button></div>
+  <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+  <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+</body>
+
+</html>

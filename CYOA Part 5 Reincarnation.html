@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+        function initialize() {
+            charImg = document.getElementById("character");
+            charImg.style.display = "block";
+            story = document.getElementById("dialogue");
+            story.style.display = "block";
+            document.getElementById("left").style.display = "inline-block";
+            document.getElementById("right").style.display = "inline-block";
+            storyText = [
+                "Take it back, Tohru! I didn’t want to kill you even know I knew for a fact that you killed me in the past. I thought that right now, we could still be together but now I’ll just have to kill you.",
+                "DIE, Tohru! Die in the name of our love! Keep trying to resist, you’ll be the one that feels my pain!You were the one that killed my wife! I knew something was up with you and my wife’s ribbon being on your pinky. You can’t be left to live especially a demon like you.",
+                "That’s for my wife!",
+                "And that’s the end of the game!",
+                "Very well done! What a great fight indeed!",
+                "What do you want with me?",
+                "Those who are dead cannot die any further. Even if you insist on trying to kill each other due to grudges, you can’t. Let me guide both of you to your places.",
+                "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me",
+                "How do you know our names?",
+                "There’s much about me that I don’t know myself….",
+                "You have gone to be reincarnated! At times of sorrow and finding out about your wife’s killer, you managed to keep the inner beast in.",
+                "Knowing that you have a child, you have a reason to be reincarnated and way for you to change your ways.",
+                "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be reincarnated."
+            ]; 
+            detectiveText = [
+                "That’s for my wife!",
+                "What do you want with me?",
+                "How do you know our names?"
+            ];
+            ringmasterText = [
+                "Very well done! What a great fight indeed!",
+                "Those who are dead cannot die any further. Even if you insist on trying to kill each other due to grudges, you can’t. Let me guide both of you to your places.",
+                "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me",
+                "There’s much about me that I don’t know myself….",
+            ];
+            knifethrowerText = [
+                "And that’s the end of the game!",
+            ]
+            narratorText = [
+                "You have gone to be reincarnated! At times of sorrow and finding out about your wife’s killer, you managed to keep the inner beast in.",
+                "Knowing that you have a child, you have a reason to be reincarnated and way for you to change your ways.",
+                "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be reincarnated."
+            ];
+            criminalText = [
+                "Take it back, Tohru! I didn’t want to kill you even know I knew for a fact that you killed me in the past. I thought that right now, we could still be together but now I’ll just have to kill you.",
+                "DIE, Tohru! Die in the name of our love! Keep trying to resist, you’ll be the one that feels my pain!You were the one that killed my wife! I knew something was up with you and my wife’s ribbon being on your pinky. You can’t be left to live especially a demon like you."
+            ];
+            page = 0;
+            continueStory();
+        }
+        function continueStory() {
+            costumeSwitch(page);
+            story.innerHTML = storyText[page];
+        }
+        function pageTurner() {
+            page++;
+            continueStory();
+        }
+        function pageBackward() {
+            page--;
+            continueStory();
+        }
+        function costumeSwitch(page) {
+            if (detectiveText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Detective1.png";
+            }
+            if (ringmasterText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Ringmaster.png";
+            }
+            if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "KnifeThrower.png";
+            }
+            if (criminalText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Criminal1.png";
+            }
+            if (narratorText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "";
+            }
+        }
+    </script>
+    <title>Level 2 Project</title>
+</head>
+
+<body id="background" onload="initialize();">
+    <img id="character" src="" />
+    <p id="dialogue">
+    </p>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+        function initialize() {
+            charImg = document.getElementById("character");
+            charImg.style.display = "block";
+            story = document.getElementById("dialogue");
+            story.style.display = "block";
+            document.getElementById("left").style.display = "inline-block";
+            document.getElementById("right").style.display = "inline-block";
+            storyText = [
+                "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>",
+                "You were the one that killed my wife! I knew something was up with you and my wife’s ribbon being on your pinky. You can’t be left to live especially a demon like you.",
+                "You even killed your own best friend to get your way. You are nothing to me. Killing you was the only salvation for my wife!",
+                "That’s for my Wife!"
+            ];
+            detectiveText = [
+                "You were the one that killed my wife! I knew something was up with you and my wife’s ribbon being on your pinky. You can’t be left to live especially a demon like you.",
+                "You even killed your own best friend to get your way. You are nothing to me. Killing you was the only salvation for my wife!",
+                "That’s for my Wife!"
+            ];
+            ringmasterText = [
+            ];
+            knifethrowerText = [
+            ]
+            narratorText = [
+                "<em>Remembers coming home late at night and seeing her wife dead along with her ribbon missing from her.</em>"
+            ];
+            criminalText = [
+            ];
+            page = 0;
+            continueStory();
+        }
+        function continueStory() {
+            costumeSwitch(page);
+            story.innerHTML = storyText[page];
+        }
+        function pageTurner() {
+            page++;
+            continueStory();
+        }
+        function pageBackward() {
+            page--;
+            continueStory();
+        }
+        function costumeSwitch(page) {
+            if (detectiveText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Detective1.png";
+            }
+            if (ringmasterText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Ringmaster.png";
+            }
+            if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "KnifeThrower.png";
+            }
+            if (criminalText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Criminal1.png";
+            }
+            if (narratorText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "";
+            }
+        }
+    </script>
+    <title>Level 2 Project</title>
+</head>
+
+<body id="background" onload="initialize();">
+    <img id="character" src="" />
+    <p id="dialogue">
+    </p>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+</body>
+
+</html>

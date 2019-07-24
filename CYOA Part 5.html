@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!--This is the real Part 5 where there will be if statements as well-->
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+      function initialize() {
+        charImg = document.getElementById("character");
+        charImg.style.display = "block";
+        story = document.getElementById("dialogue");
+        story.style.display = "block";
+        document.getElementById("left").style.display = "inline-block";
+        document.getElementById("right").style.display = "inline-block";
+        document.body.style.animation = "none";
+        currentPoints = parseInt(localStorage.getItem("storedPoints"));
+        storyText = [
+          "Take it back, Tohru! I didn’t want to kill you even though you KILLED ME.",
+          "DIE, Tohru! Die by my hands so that we can be TOGETHER! Keep trying to resist, you’ll be the one that feels my pain!",
+          "And that’s the end of the game!",
+          "Very well done! What a great fight indeed!",
+          "What do you want with me?",
+          "Those who are dead cannot die any further. Even if you insist on trying to kill each other due to grudges, you can’t. Let me guide both of you to your places.",
+          "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me",
+          "How do you know our names?",
+          "There’s much about me that I don’t know myself….",
+        ];
+        detectiveText = [
+          "What do you want with me?",
+          "How do you know our names?"
+        ];
+        ringmasterText = [
+          "Very well done! What a great fight indeed!",
+          "Those who are dead cannot die any further. Even if you insist on trying to kill each other due to grudges, you can’t. Let me guide both of you to your places.",
+          "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me",
+          "There’s much about me that I don’t know myself…."
+        ];
+        knifethrowerText = ["And that’s the end of the game!"];
+        narratorText = [
+        ];
+        criminalText = [
+        "Take it back, Tohru! I didn’t want to kill you even though you KILLED ME.",
+          "DIE, Tohru! Die by my hands so that we can be TOGETHER! Keep trying to resist, you’ll be the one that feels my pain!"
+        ];
+        page = 0;
+        continueStory();
+      }
+      function continueStory() {
+        costumeSwitch(page);
+        story.innerHTML = storyText[page];
+      }
+      function pageTurner() {
+        page++;
+        continueStory();
+      }
+      function pageBackward() {
+        page--;
+        continueStory();
+      }
+      function costumeSwitch(page) {
+        if (detectiveText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Detective1.png";
+        }
+        if (ringmasterText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Ringmaster.png";
+        }
+        if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "KnifeThrower.png";
+        }
+        if (criminalText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Criminal1.png";
+        }
+        if (narratorText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/"+ "Transparent.png";
+        }
+        if (
+          storyText[page] ==
+          "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me"
+        && currentPoints==0) {
+       goNoWhere();
+        }
+        if (
+          storyText[page] ==
+          "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me"
+        && currentPoints>=25) {
+        goToVoid();
+        }
+        if (
+          storyText[page] ==
+          "Tohru, go to the elevator to the right of me, and you Nyoko, go to the elevator to the left of me"
+        && currentPoints<=-25) {
+            gotoReincarnation();
+        }
+        if (storyText[page] ==  "Restart?") {
+            document.getElementById("left").style.display = "none";
+        document.getElementById("right").style.display = "none";
+        document.getElementById("startOver").innerHTML= "Restart!";
+        }
+      }
+     function goNoWhere() {
+            storyText.splice(
+              page,
+              1,
+              "Tohru, stay here, and you Nyoko, go to the elevator to the left of me"
+            );
+            storyText.push(
+              "You have been chosen to stay here where you are!",
+              "The Ringmaster was puzzled at how you didn't show either a good or bad side to yourself",
+              "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your 'game'"
+              ,"Restart?"
+            );
+            narratorText.push(
+              "You have been chosen to stay here where you are!",
+              "The Ringmaster was puzzled at how you didn't show either a good or bad side to yourself",
+              "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your 'game'"
+            ,"Restart?"
+            );
+            continueStory();
+     }
+      function gotoReincarnation() {
+            storyText.splice(
+              page,
+              1,
+              "Tohru, go to the elevator to the left of me, and you Nyoko, go to the elevator to the right of me"
+            );
+            storyText.push(
+              "You have gone to be reincarnated! At times of sorrow and finding out about your wife’s killer, you managed to keep the inner beast in.",
+              "You have a reason to be reincarnated and and you can change yourself for the better.",
+              "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be reincarnated."
+              ,"Restart?"
+            );
+            narratorText.push(
+              "You have gone to be reincarnated! At times of sorrow and finding out about your wife’s killer, you managed to keep the inner beast in.",
+              "You have a reason to be reincarnated and and you can change yourself for the better.",
+              "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be reincarnated."
+              ,"Restart?"
+            );
+            continueStory();
+      }
+      function goToVoid() {
+            storyText.push(
+              "You have gone into the Void.  At times of sorrow and finding out about your wife’s killer, you let your emotions control you, letting out for inner wrath. You have no reason to be reincarnated due to these features.",
+              "If you kept calm and tried to keep your rage conceal, then maybe you could’ve displayed that you were worthy of reincarnation",
+                "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be vanquished into the void"
+                ,"Restart?"
+            );
+            narratorText.push(
+              "You have gone into the Void.  At times of sorrow and finding out about your wife’s killer, you let your emotions control you, letting out for inner wrath. You have no reason to be reincarnated due to these features.",
+              "If you kept calm and tried to keep your rage conceal, then maybe you could’ve displayed that you were worthy of reincarnation",
+                "This is the Ringmaster’s judgement for he is absolute in all decisions. He was the one looking at your actions as you played your “game” and thus you earn the right to be vanquished into the void"
+                ,"Restart?"
+            );
+            continueStory();  
+}
+function restart() {
+    window.location.href= 'CYOA Part 1.html'
+}
+    </script>
+    <title>Level 2 Project</title>
+  </head>
+
+  <body id="background" onload="initialize();">
+    <img id="character" src="" />
+    <p id="dialogue"></p>
+    <div style="text-align:center;">
+      <button id= "startOver" onclick="window.location.href='CYOA Part 1.html'">
+        Start Over
+      </button>
+    </div>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+  </body>
+</html>

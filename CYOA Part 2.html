@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+        function initialize() {
+            charImg = document.getElementById("character");
+            charImg.style.display = "block";
+            story = document.getElementById("dialogue");
+            story.style.display = "block";
+            document.getElementById("left").style.display = "inline-block";
+            document.getElementById("right").style.display = "inline-block";
+            document.body.style.animation = "none";
+            storyText = [
+                "Very well, let me guide you to the place in which you will be playing this game. ",
+                "These will be my esteemed guests for today? How great, a man and a woman. This should be interesting. ",
+                "Take care of them, I will be taking my leave.",
+                "Your wish is my command.",
+                "The game that the both of you will be playing is Knife Throwing.",
+                "Doesn’t seem so bad. I thought this was going to be life or death.",
+                "What? Of course it is a life or death situation. You just didn’t let me finish.",
+                "Both of you will have to choose from two boxes that I have in my hand. One has more knives than the other. It all just depends on your choice. ",
+                "Choose between the two boxes"
+            ];
+            detectiveText = [
+                "Doesn’t seem so bad. I thought this was going to be life or death.",
+                "Choose between the two boxes"
+            ];
+            ringmasterText = [
+                "Very well, let me guide you to the place in which you will be playing this game. ",
+                "Take care of them, I will be taking my leave."
+            ];
+            knifethrowerText = [
+                "These will be my esteemed guests for today? How great, a man and a woman. This should be interesting. ",
+                "Your wish is my command.",
+                "The game that the both of you will be playing is Knife Throwing.",
+                "What? Of course it is a life or death situation. You just didn’t let me finish."
+            ]
+            narratorText = [
+            ];
+            criminalText = [
+            ];
+            page = 0;
+            badPoints = 0;-
+            setDisplay("gift", "none");
+            continueStory();
+        }
+        function continueStory() {
+            costumeSwitch(page);
+            story.innerHTML = storyText[page];
+            if (storyText[page] == "Choose between the two boxes") {
+                document.getElementById("left").style.display = "none";
+                document.getElementById("right").style.display = "none";
+                charImg.style.display = "none";
+                setDisplay("gift", "inline-block");
+            }
+        }
+        function randomKnives() {
+            firstKnives = Math.floor(Math.random() * 10);
+            secondKnives = Math.floor(Math.random() * 10);
+            return [firstKnives, secondKnives];
+        }
+
+        function firstClick() {
+            randomKnives();
+            if (randomKnives()[0] > randomKnives()[1]) {
+                badPoints++;
+            }
+            localStorage.setItem("storedKnives", firstKnives);
+            localStorage.setItem("storedPoints", badPoints);
+        }
+        function secondClick() {
+            randomKnives();
+            if (randomKnives()[1] > randomKnives()[0]) {
+                badPoints++;
+            }
+            localStorage.setItem("storedKnives",secondKnives);
+            localStorage.setItem("storedPoints", badPoints);
+        }
+        function pageTurner() {
+            page++;
+            continueStory();
+        }
+        function pageBackward() {
+            page--;
+            continueStory();
+        }
+        function costumeSwitch(page) {
+            if (detectiveText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Detective1.png";
+            }
+            if (ringmasterText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Ringmaster.png";
+            }
+            if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "KnifeThrower.png";
+            }
+            if (criminalText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "Images/" + "Criminal1.png";
+            }
+            if (narratorText.indexOf(storyText[page]) >= 0) {
+                charImg.src = "";
+            }
+        }
+        function setDisplay(className, displayValue) {
+            var items = document.getElementsByClassName(className);
+            for (var i = 0; i < items.length; i++) {
+                items[i].style.display = displayValue;
+            }
+        }
+    </script>
+    <title>Level 2 Project</title>
+</head>
+
+<body id="background" onload="initialize();">
+    <img id="character" src="" />
+    <img onclick="firstClick();window.location.href='CYOA Part 3.html'"  class="gift" src="Images/Gift.png" />
+    <img onclick="secondClick();window.location.href='CYOA Part 3.html'" class="gift" src="Images/Gift1.png" />
+    <p id="dialogue"></p>
+    <div style="text-align:center;">
+        <button onclick="window.location.href='CYOA Part 1.html'">Start Over</button></div>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+
+</body>
+
+</html>

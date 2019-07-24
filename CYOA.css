@@ -1,0 +1,72 @@
+body {
+  background-image: url("Images/Dungeon1.png");
+  animation-name: backgroundSwitch;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation: backgroundSwitch 6s ease-in-out 0s infinite normal;
+}
+@keyframes backgroundSwitch {
+  0% {
+    background-image: url("Images/Dungeon1.png");
+  }
+  33.34% {
+    background-image: url("Images/Dungeon2.png");
+  }
+  66.67% {
+    background-image: url("Images/Dungeon3.png");
+  }
+  100% {
+    background-image: url("Images/Circus.png");
+  }
+}
+.stopped {
+  animation-name: none;
+}
+#character {
+  width: 425px;
+  height: 425px;
+  display: block;
+  margin: auto;
+  padding: auto;
+}
+.gift {
+  width: 425px;
+  height: 425px;
+  display: block;
+  margin: auto;
+  padding: auto;
+}
+#dialogue {
+  border: 5px solid skyblue;
+  font-size: 16pt;
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 72pt;
+}
+button {
+  background-color: burlywood;
+  font-family: Cambria;
+  border: none;
+  color: white;
+  padding: 25px 25px;
+  /** This what creates spacing in the buttons to make it look good **/
+  text-align: center;
+  font-size: 32pt;
+}
+#Start {
+  text-align: center;
+}
+#left {
+  width: 100px;
+  height: 100px;
+}
+#right {
+  float: right;
+  width: 100px;
+  height: 100px;
+}

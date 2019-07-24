@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="CYOA.css" />
+    <script>
+      function initialize() {
+        charImg = document.getElementById("character");
+        charImg.style.display = "block";
+        story = document.getElementById("dialogue");
+        story.style.display = "block";
+        document.getElementById("left").style.display = "inline-block";
+        document.getElementById("right").style.display = "inline-block";
+        document.body.style.animation = "none";
+        currentKnives = parseInt(localStorage.getItem("storedKnives"));
+        currentPoints = parseInt(localStorage.getItem("storedPoints"));
+        storyText = [
+          "Both of you cannot open the box until the game has started. If you do, then I presume that you are dead and you do not want to defy me.",
+          "<em>Throws Knife</em>",
+          "I couldn’t even see knife’s path.",
+          "There will be tools on each of the floors that I say you are in. You can maneuver how you like after that.",
+          "Young man, you’ll be at the 2nd floor and woman, you will be at the 1st floor. ",
+          "Both of you seem to be settled. START!!! ",
+          `I have ${currentKnives} Knives, I chose the right option.`,
+          "That was really close!",
+          "<em>Sees ribbon and places it on his hand </em>",
+          "I’m slowly remembering everything from my past. Yet again, how will this ribbon help me in this death battle?",
+          "<em>Remembers working as a detective and coming home late at night</em>",
+          "If I were working that job, I would seriously consider coming to my wife much sooner. But it seems that it was work over family to me.",
+          "Stay upstairs or Come Downstairs?"
+        ];
+        detectiveText = [
+          "I have X Knives, I chose the right option.",
+          "I couldn’t even see knife’s path.",
+          "That was really close!",
+          "I’m slowly remembering everything from my past. Yet again, how will this ribbon help me in this death battle?",
+          "If I were working that job, I would seriously consider coming to my wife much sooner. But it seems that it was work over family to me.",
+          "Stay upstairs or Come Downstairs?"
+        ];
+        ringmasterText = [];
+        knifethrowerText = [
+          "Both of you cannot open the box until the game has started. If you do, then I presume that you are dead and you do not want to defy me.",
+          "There will be tools on each of the floors that I say you are in. You can maneuver how you like after that.",
+          "Young man, you’ll be at the 2nd floor and woman, you will be at the 1st floor.",
+          "Both of you seem to be settled. START!!! "
+        ];
+        narratorText = [
+          "<em>Throws Knife</em>",
+          "<em>Sees ribbon and places it on his hand </em>"
+        ];
+        criminalText = [];
+        page = 0;
+        pointModifier = 0;
+        setDisplay("throwKnife", "none");
+        setDisplay("decision", "none");
+        continueStory();
+        display();
+      }
+      function continueStory() {
+        costumeSwitch(page);
+        story.innerHTML = storyText[page];
+      }
+      function pageTurner() {
+        page++;
+        continueStory();
+      }
+      function pageBackward() {
+        page--;
+        continueStory();
+      }
+      function display() {
+        document.getElementById("knives").innerHTML = currentKnives;
+      }
+      function costumeSwitch(page) {
+        if (detectiveText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Detective1.png";
+        }
+        if (ringmasterText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Ringmaster.png";
+        }
+        if (knifethrowerText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "KnifeThrower.png";
+        }
+        if (criminalText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "Images/" + "Criminal1.png";
+        }
+        if (narratorText.indexOf(storyText[page]) >= 0) {
+          charImg.src = "";
+        }
+        if (storyText[page] == "Stay upstairs or Come Downstairs?") {
+          setDisplay("decision", "inline-block");
+          document.getElementById("left").style.display = "none";
+          document.getElementById("right").style.display = "none";
+        }
+      }
+      function stayOrLeave(path) {
+        setDisplay("decision", "none");
+        if (path == 1) {
+          setDisplay("throwKnife", "inline-block");
+        }
+        if (path == 0) {
+          page++;
+          storyText.push(
+            "You have died from a barrage of knives from your opponent"
+          );
+          document.getElementById("left").style.display = "none";
+          document.getElementById("right").style.display = "none";
+          continueStory();
+        }
+      }
+      function knifeDecision(throwIt) {
+        if (throwIt == 1) {
+          pointModifier++;
+          currentKnives--;
+          currentPoints += pointModifier;
+          page++;
+          storyText.push("You have thrown a knife");
+          narratorText.push("You have thrown a knife");
+          display();
+          continueStory();
+          if (currentKnives <= 0) {
+            currentKnives = 0;
+            page++;
+            storyText.push("You have no more knives");
+            narratorText.push("You have no more knives");
+            continueStory();
+            setDisplay("throwKnife", "none");
+            document.getElementById("nextStage").innerHTML =
+              "Go to the Next Stage";
+            document.getElementById("nextStage").style.display = "inline-block";
+            display();
+          }
+        }
+        if (throwIt == 0) {
+          currentPoints--;
+          localStorage.setItem("storedKnives", currentKnives);
+          localStorage.setItem("storedPoints", currentPoints);
+          window.location.href = "CYOA Part 4.html";
+        }
+      }
+      function setDisplay(className, displayValue) {
+        var items = document.getElementsByClassName(className);
+        for (var i = 0; i < items.length; i++) {
+          items[i].style.display = displayValue;
+        }
+      }
+    </script>
+    <title>Level 2 Project</title>
+  </head>
+
+  <body id="background" onload="initialize();">
+    <div
+      style="display: in-line block; text-align: left; border: solid blue 5px; color: white;"
+    >
+      Number of Knives: <span id="knives" style="color:white;"></span>
+    </div>
+    <img id="character" src="" />
+    <p id="dialogue"></p>
+    <div style="text-align:center;">
+      <button onclick="window.location.href='CYOA Part 1.html'">
+        Start Over
+      </button>
+    </div>
+    <br />
+    <button class="decision" onclick="stayOrLeave(1);">Stay Upstairs</button>
+    <button class="decision" onclick="stayOrLeave(0);">Go Downstairs</button>
+    <button class="throwKnife" onclick="knifeDecision(1);">Throw Knife</button>
+    <button id="nextStage" class="throwKnife" onclick="knifeDecision(0);">
+      Don't Throw Knife
+    </button>
+    <img onclick="pageBackward();" id="left" src="Images/Evidence1.PNG" />
+    <img onclick="pageTurner();" id="right" src="Images/Evidence2.PNG" />
+  </body>
+</html>
